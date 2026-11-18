@@ -63,7 +63,7 @@ export function Duvidas() {
               data-gsap-pending
               className="font-display text-[clamp(2.6rem,10vw,4rem)] leading-[0.95] lg:text-[clamp(3.2rem,4.6vw,5.4rem)]"
             >
-              Antes de <em className="italic text-rose">agendar.</em>
+              Antes de agendar.
             </h2>
           </div>
           <ol className="lg:col-span-8">
@@ -84,7 +84,7 @@ export function Duvidas() {
                       className="flex w-full items-start justify-between gap-6 py-6 text-left outline-offset-4 focus-visible:outline-2 focus-visible:outline-rose sm:py-7"
                     >
                       <span className="font-display text-[1.6rem] leading-[1.1] sm:text-[2.1rem]">{d.pergunta}</span>
-                      <span data-sinal aria-hidden className="mt-1 block font-mono text-2xl leading-none text-rose">
+                      <span data-sinal aria-hidden className="mt-1 block text-2xl font-light leading-none text-rose">
                         +
                       </span>
                     </button>

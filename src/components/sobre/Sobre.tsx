@@ -21,9 +21,9 @@ export function Sobre() {
           gsap.set(q("[data-gsap-pending]"), { autoAlpha: 1 });
           if ((ctx.conditions as { reduce: boolean }).reduce) return;
           const tl = revealSecao(q, root.current!);
-          gsap.set(q("[data-foto]"), { clipPath: "inset(100% 0% 0% 0% round 0px 0px 999px 999px)" });
+          gsap.set(q("[data-foto]"), { clipPath: "inset(100% 0% 0% 0%)" });
           gsap.set(q("[data-foto-img]"), { scale: 1.2 });
-          tl.to(q("[data-foto]"), { clipPath: "inset(0% 0% 0% 0% round 0px 0px 999px 999px)", duration: 1.4, ease: "expo.inOut" }, 0.2)
+          tl.to(q("[data-foto]"), { clipPath: "inset(0% 0% 0% 0%)", duration: 1.4, ease: "expo.inOut" }, 0.2)
             .to(q("[data-foto-img]"), { scale: 1, duration: 1.8, ease: "expo.out" }, 0.4);
           // leve parallax da foto
           gsap.to(q("[data-foto-img]"), {
@@ -44,7 +44,7 @@ export function Sobre() {
 
         <div className="mt-14 grid items-center gap-14 lg:mt-20 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-5">
-            <div data-foto className="relative mx-auto aspect-[4/5] w-[min(82%,22rem)] overflow-hidden rounded-b-[999px] bg-nude-2 lg:mx-0 lg:w-full lg:max-w-[26rem]">
+            <div data-foto className="relative mx-auto aspect-[4/5] w-[min(82%,22rem)] overflow-hidden bg-nude lg:mx-0 lg:w-full lg:max-w-[26rem]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 data-foto-img
@@ -53,10 +53,13 @@ export function Sobre() {
                 className="h-[112%] w-full object-cover object-[50%_15%]"
               />
             </div>
+            <p className="mx-auto mt-3 w-[min(82%,22rem)] text-xs text-tinta-soft lg:mx-0 lg:w-full lg:max-w-[26rem]">
+              No consultório, em Fortaleza
+            </p>
           </div>
 
           <div className="lg:col-span-7">
-            <p data-item data-gsap-pending className="font-mono text-xs text-tinta-soft sm:text-sm">
+            <p data-item data-gsap-pending className="text-sm text-tinta-soft sm:text-base">
               {CLINICA.profissao} · {CLINICA.cidade}
             </p>
             <h2
@@ -65,7 +68,7 @@ export function Sobre() {
               data-gsap-pending
               className="font-display mt-4 text-[clamp(2.6rem,10vw,4rem)] leading-[0.95] lg:text-[clamp(3.4rem,5.4vw,6.4rem)]"
             >
-              Prazer, eu sou a <em className="italic text-rose">Milena.</em>
+              Prazer, eu sou a Milena.
             </h2>
             <p data-item data-gsap-pending className="mt-8 max-w-[52ch] text-lg leading-relaxed text-tinta-soft sm:text-xl">
               {CLINICA.bio}
@@ -74,7 +77,7 @@ export function Sobre() {
             <ol className="mt-12 max-w-[40rem]">
               {CLINICA.formacao.map((f) => (
                 <li key={f.oque} className="grid grid-cols-[7.5rem_1fr] gap-4 pb-5 sm:grid-cols-[9rem_1fr]">
-                  <span data-item data-gsap-pending className="pt-4 font-mono text-[11px] text-tinta-soft sm:text-xs">
+                  <span data-item data-gsap-pending className="pt-4 text-sm text-tinta-soft">
                     {f.quando}
                   </span>
                   <div>
@@ -97,7 +100,7 @@ export function Sobre() {
               href={CLINICA.instagram.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-6 inline-flex items-center gap-3 border-b border-tinta pb-1 font-mono text-sm hover:text-rose"
+              className="mt-6 inline-flex items-center gap-2 border-b border-tinta/40 pb-0.5 text-[15px] hover:border-tinta"
             >
               Bastidores no Instagram {CLINICA.instagram.usuario} ↗
             </a>

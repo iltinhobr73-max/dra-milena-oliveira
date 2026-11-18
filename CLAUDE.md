@@ -32,15 +32,16 @@ Stack: Next.js (App Router, `src/`), TypeScript, Tailwind CSS v4, GSAP + ScrollT
 - `src/components/providers/SmoothScroll.tsx` — Lenis único + `useScrollTo()` (âncoras; `duration`, `ease` power3/expo, `lock`, `onComplete`, `interno`), `useScrollLock()`, `useNavegacao()` + evento `FIM_NAVEGACAO`.
 - `src/components/doc/Secao.tsx` — `SecaoHeader` (número + nome + linha) e `revealSecao()` (linha expo.inOut, `[data-item]` stagger 0.2 power3.out, `[data-draw]` linhas traçadas).
 - Página: `hero/` · `tratamento/TratamentosIntro` (01) · `tratamento/Tratamento` ×3 — Clínica Geral (02), Clareamento (03, antes/depois guiado pelo scroll, sem pin), Botox (04) · `sobre/` (05) · `duvidas/` (06) · `agendar/` (07). `flutuante/` = botão WhatsApp.
-- Hero: foto dela num arco + lema. Tensão: linha rosé desenha e o nome aparece → a foto se revela de baixo para cima → só então a frase sobe linha a linha.
-- `public/media/perola.mp4` — vídeo de luz perolada (gerado, provisório). Fotos vieram do Instagram (~600px) e foram ampliadas 4× com super-resolução (OpenCV EDSR ×4 + redução de ruído + nitidez leve). Uso: `perfil` (hero), `consultorio` (sobre), `procedimento` (botox), `antes`/`depois` (clareamento).
+- Hero editorial (claro): vídeo = a própria foto dela com aproximação lenta (`milena.mp4`, gerado da foto). Tensão: uma linha fina em forma de sorriso se desenha (só desktop) → a foto abre como cortina → o lema sobe linha a linha.
+- `public/media/milena.mp4` — loop de aproximação lenta gerado a partir de `perfil.jpg` (trocar por um vídeo real dela quando houver). Fotos vieram do Instagram (~600px) e foram ampliadas 4× com super-resolução (OpenCV EDSR ×4 + redução de ruído + nitidez leve). Uso: `perfil` (hero), `consultorio` (sobre), `procedimento` (botox), `antes`/`depois` (clareamento).
 
 ## Direção de arte
 
 - Fundo vai do cacau (hero, tratamentos) aos claros quentes (`nude`, `nude-2`, `perola`) até o branco `porcelana` no fim. Sem códigos de "tom"/escala de cor no site (pedido da cliente).
 - Paleta: `cacau` (escuros), `nude`/`nude-2`/`perola`/`porcelana` (claros), `rose`/`rose-2` (rosé dourado: destaques e botões), `tinta` (texto).
-- Tipografia: Fraunces macia (`.font-display`, itálico na palavra de ênfase), Inter Tight (texto), IBM Plex Mono (metadados).
+- Tipografia: Fraunces macia (`.font-display`, romana) e Inter Tight (texto).
 - Fotos sempre na cor original. Animações simples e elegantes: sem seção fixada (pin) — a cliente preferiu páginas separadas.
+- **Evitar a "cara de IA"** (pedido da cliente): nada de palavra em itálico colorido nos títulos, botão em pílula com setinha em círculo, rótulos em mono/caixa alta espaçada, numeração "01 —", fotos em arco, cantos muito arredondados, fundo escuro com luz desfocada. Linha editorial de revista: títulos em Fraunces romana, botões retangulares só com texto, fotos retas com legenda.
 
 ## Armadilhas conhecidas
 

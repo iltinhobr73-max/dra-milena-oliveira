@@ -2,18 +2,12 @@
 
 import { gsap } from "@/lib/gsap";
 
-/** Cabeçalho de seção: número + nome + linha fina. */
-export function SecaoHeader({ numero, titulo, escuro = false }: { numero: string; titulo: string; escuro?: boolean }) {
+/** Cabeçalho de seção: só o nome, pequeno, sobre uma linha fina. */
+export function SecaoHeader({ titulo, escuro = false }: { numero?: string; titulo: string; escuro?: boolean }) {
   return (
-    <div className={`font-mono text-[11px] leading-none sm:text-xs ${escuro ? "text-porcelana/70" : "text-tinta-soft"}`}>
-      <div className="flex items-center justify-between gap-4">
-        <span className="flex items-center gap-3">
-          <span className={escuro ? "text-rose-2" : "text-rose"}>{numero}</span>
-          <span>{titulo}</span>
-        </span>
-        <span className="hidden sm:inline">Dra. Milena Oliveira</span>
-      </div>
-      <div data-secao-rule className={`mt-3 h-px w-full ${escuro ? "bg-rose-2/50" : "bg-tinta/20"}`} />
+    <div className={`text-sm ${escuro ? "text-rose-2" : "text-rose"}`}>
+      <p>{titulo}</p>
+      <div data-secao-rule className={`mt-3 h-px w-full ${escuro ? "bg-porcelana/15" : "bg-tinta/15"}`} />
     </div>
   );
 }

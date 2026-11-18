@@ -50,10 +50,9 @@ export function Flutuante() {
       href={whatsapp()}
       target="_blank"
       rel="noopener noreferrer"
-      className="invisible fixed bottom-4 right-4 z-40 inline-flex items-center gap-4 rounded-full bg-cacau py-2 pl-5 pr-2 text-sm font-medium text-porcelana shadow-[0_12px_30px_-10px_rgba(20,12,9,0.6)] ring-1 ring-porcelana/15 sm:bottom-6 sm:right-6"
+      className="invisible fixed bottom-4 right-4 z-40 bg-cacau px-5 py-3.5 text-sm text-porcelana shadow-[0_12px_30px_-12px_rgba(20,12,9,0.55)] transition-colors hover:bg-rose sm:bottom-6 sm:right-6"
     >
-      Agendar avaliação
-      <span className="grid size-9 place-items-center rounded-full bg-rose-2 text-cacau">↗</span>
+      Agendar pelo WhatsApp
     </a>
   );
 }

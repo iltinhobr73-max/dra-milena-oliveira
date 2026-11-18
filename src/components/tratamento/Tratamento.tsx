@@ -26,8 +26,8 @@ export function Tratamento({ indice, numero, fundo, inverter = false }: Props) {
           gsap.set(q("[data-gsap-pending]"), { autoAlpha: 1 });
           if ((ctx.conditions as { reduce: boolean }).reduce) return;
           const tl = revealSecao(q, root.current!);
-          gsap.set(q("[data-visual]"), { clipPath: "inset(18% 10% 18% 10% round 28px)" });
-          tl.to(q("[data-visual]"), { clipPath: "inset(0% 0% 0% 0% round 28px)", duration: 1.4, ease: "expo.inOut" }, 0.2);
+          gsap.set(q("[data-visual]"), { clipPath: "inset(14% 8% 14% 8%)" });
+          tl.to(q("[data-visual]"), { clipPath: "inset(0% 0% 0% 0%)", duration: 1.4, ease: "expo.inOut" }, 0.2);
 
           // Antes e depois guiado pelo scroll.
           const cortina = q("[data-depois]");
@@ -52,28 +52,40 @@ export function Tratamento({ indice, numero, fundo, inverter = false }: Props) {
 
   const visual =
     t.id === "clareamento" ? (
-      <figure data-comparar className="relative aspect-[612/301] w-full overflow-hidden rounded-[28px] sm:aspect-[5/4]">
+      <figure data-comparar className="relative aspect-[612/301] w-full overflow-hidden sm:aspect-[5/4]">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/media/antes.jpg" alt="Antes do clareamento" className="absolute inset-0 h-full w-full object-cover" />
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img data-depois src="/media/depois.jpg" alt="Depois do clareamento" className="absolute inset-0 h-full w-full object-cover" />
         <span data-divisa aria-hidden className="absolute inset-y-0 block w-0.5 bg-porcelana" />
-        <figcaption className="absolute inset-x-3 bottom-3 flex justify-between font-mono text-[11px] text-porcelana">
-          <span className="rounded-full bg-cacau/60 px-2.5 py-1">antes</span>
-          <span className="rounded-full bg-cacau/60 px-2.5 py-1">depois</span>
+        <figcaption className="absolute inset-x-3 bottom-3 flex justify-between text-xs text-porcelana">
+          <span className="bg-cacau/55 px-2 py-1">Antes</span>
+          <span className="bg-cacau/55 px-2 py-1">Depois</span>
         </figcaption>
       </figure>
     ) : t.id === "botox" ? (
-      <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[28px]">
+      <div className="relative aspect-[4/5] w-full overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/media/procedimento.jpg" alt="Dra. Milena aplicando toxina botulínica" className="h-[110%] w-full object-cover" />
+        <span className="absolute bottom-3 left-3 bg-cacau/55 px-2 py-1 text-xs text-porcelana">Aplicação no consultório</span>
       </div>
     ) : (
-      <div className="flex aspect-[5/4] w-full flex-col justify-between rounded-[28px] bg-cacau p-7 text-porcelana sm:p-10">
-        <span className="font-mono text-xs text-rose-2">primeira consulta</span>
-        <span className="font-display text-[clamp(2.2rem,6vw,4.2rem)] italic leading-[1]">Avaliar antes de tratar.</span>
-        <span className="font-mono text-xs text-porcelana/60">saúde · prevenção · plano de tratamento</span>
-      </div>
+      // Clínica geral: as etapas reais do atendimento, no lugar de uma imagem decorativa.
+      <ol className="w-full border-t border-tinta/15">
+        {[
+          ["Avaliação", "Conversa, exame clínico e o que você deseja para o seu sorriso."],
+          ["Plano", "O tratamento explicado etapa por etapa, antes de começar."],
+          ["Cuidado", "Tratamento e retornos de acompanhamento e prevenção."],
+        ].map(([titulo, texto], i) => (
+          <li key={titulo} className="grid grid-cols-[3.5rem_1fr] gap-4 border-b border-tinta/15 py-6 sm:grid-cols-[5rem_1fr]">
+            <span className="font-display text-[2.6rem] leading-none text-rose sm:text-[3.4rem]">{i + 1}</span>
+            <span>
+              <span className="font-display block text-2xl sm:text-3xl">{titulo}</span>
+              <span className="mt-1 block text-[15px] leading-relaxed text-tinta-soft">{texto}</span>
+            </span>
+          </li>
+        ))}
+      </ol>
     );
 
   return (
@@ -96,7 +108,7 @@ export function Tratamento({ indice, numero, fundo, inverter = false }: Props) {
             >
               {t.titulo}
             </h2>
-            <p data-item data-gsap-pending className="font-display mt-5 text-2xl italic leading-snug text-rose sm:text-3xl">
+            <p data-item data-gsap-pending className="font-display mt-5 text-2xl leading-snug text-tinta sm:text-3xl">
               {t.chamada}
             </p>
             <p data-item data-gsap-pending className="mt-6 max-w-[48ch] text-lg leading-relaxed text-tinta-soft">
@@ -119,10 +131,9 @@ export function Tratamento({ indice, numero, fundo, inverter = false }: Props) {
               href={whatsapp(t.assunto)}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-8 inline-flex items-center gap-6 rounded-full bg-cacau py-2 pl-6 pr-2 text-[15px] font-medium text-porcelana transition-colors hover:bg-rose"
+              className="mt-9 inline-block bg-cacau px-7 py-4 text-[15px] text-porcelana transition-colors hover:bg-rose"
             >
-              Agendar avaliação
-              <span className="grid size-10 place-items-center rounded-full bg-rose-2 text-cacau">↗</span>
+              Agendar avaliação de {t.assunto}
             </a>
           </div>
         </div>

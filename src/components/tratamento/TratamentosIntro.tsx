@@ -37,7 +37,7 @@ export function TratamentosIntro() {
             data-gsap-pending
             className="font-display text-[clamp(2.7rem,11vw,4.4rem)] leading-[0.95] lg:col-span-5 lg:text-[clamp(3.6rem,5.6vw,6.6rem)]"
           >
-            Três cuidados, <em className="italic text-rose-2">um</em> sorriso.
+            Três cuidados, um sorriso.
           </h2>
           <ol className="lg:col-span-6 lg:col-start-7">
             {TRATAMENTOS.map((t, i) => (
@@ -50,7 +50,7 @@ export function TratamentosIntro() {
                   }}
                   className="group grid grid-cols-[2.5rem_1fr_auto] items-baseline gap-3 py-6 sm:py-7"
                 >
-                  <span className="font-mono text-xs text-rose-2">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="font-display text-xl text-rose-2">{i + 1}</span>
                   <span>
                     <span className="font-display block text-[2rem] leading-none transition-colors group-hover:text-rose-2 sm:text-[2.6rem]">
                       {t.titulo}

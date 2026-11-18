@@ -33,7 +33,7 @@ export function Agendar() {
         <SecaoHeader numero="07" titulo="Agendar" />
 
         <div className="py-20 text-center lg:py-32">
-          <p data-item data-gsap-pending className="font-mono text-xs text-tinta-soft sm:text-sm">
+          <p data-item data-gsap-pending className="text-sm text-tinta-soft sm:text-base">
             A primeira consulta é uma avaliação: entendemos o que você quer e o que é possível.
           </p>
           <h2
@@ -42,19 +42,18 @@ export function Agendar() {
             data-gsap-pending
             className="font-display mx-auto mt-6 max-w-[14ch] text-[clamp(3rem,13vw,5rem)] leading-[0.92] lg:text-[clamp(4.5rem,8.6vw,10rem)]"
           >
-            Vamos cuidar do <em className="italic text-rose">seu</em> sorriso?
+            Vamos cuidar do seu sorriso?
           </h2>
-          <div className="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <div className="mt-12 flex flex-col items-center justify-center gap-6 sm:flex-row sm:gap-10">
             <a
               data-item
               data-gsap-pending
               href={whatsapp()}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-6 rounded-full bg-cacau py-2.5 pl-7 pr-2.5 text-base font-medium text-porcelana transition-colors hover:bg-rose"
+              className="bg-cacau px-7 py-4 text-[15px] text-porcelana transition-colors hover:bg-rose"
             >
               Agendar pelo WhatsApp
-              <span className="grid size-11 place-items-center rounded-full bg-rose-2 text-cacau">↗</span>
             </a>
             <a
               data-item
@@ -62,19 +61,19 @@ export function Agendar() {
               href={CLINICA.instagram.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-full border border-tinta/25 px-6 py-4 font-mono text-sm transition-colors hover:border-rose hover:text-rose"
+              className="border-b border-tinta/40 pb-0.5 text-[15px] hover:border-tinta"
             >
               {CLINICA.instagram.usuario}
             </a>
           </div>
-          <p data-item data-gsap-pending className="mt-6 font-mono text-xs text-tinta-soft">
+          <p data-item data-gsap-pending className="mt-6 text-sm text-tinta-soft">
             WhatsApp {CLINICA.whatsappExibicao}
           </p>
         </div>
 
         <footer className="flex flex-col gap-6 border-t border-tinta/15 pt-6 sm:flex-row sm:items-end sm:justify-between">
           <Logo className="text-[18px]" />
-          <p className="max-w-[60ch] font-mono text-[11px] leading-relaxed text-tinta-soft">
+          <p className="max-w-[60ch] text-xs leading-relaxed text-tinta-soft">
             {CLINICA.nome} · {CLINICA.profissao}{CLINICA.cro ? ` · ${CLINICA.cro}` : ""} · {CLINICA.cidade}. Resultados variam de pessoa
             para pessoa; todo tratamento depende de avaliação clínica.
           </p>
@@ -84,7 +83,7 @@ export function Agendar() {
               e.preventDefault();
               scrollTo(0);
             }}
-            className="font-mono text-[11px] text-tinta-soft hover:text-tinta"
+            className="text-xs text-tinta-soft hover:text-tinta"
           >
             ↑ voltar ao início
           </a>
