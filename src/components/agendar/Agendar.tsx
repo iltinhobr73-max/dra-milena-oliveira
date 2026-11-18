@@ -5,9 +5,9 @@ import { gsap, useGSAP } from "@/lib/gsap";
 import { useScrollTo } from "@/components/providers/SmoothScroll";
 import { revealSecao, SecaoHeader } from "@/components/doc/Secao";
 import { Logo } from "@/components/doc/Logo";
-import { CLINICA } from "@/content/clinica";
+import { CLINICA, whatsapp } from "@/content/clinica";
 
-/** Agendar (tom BL1): o fim do clareamento — a página chega ao branco porcelana. */
+/** Agendar: convite final pelo WhatsApp + rodapé. */
 export function Agendar() {
   const root = useRef<HTMLElement>(null);
   const scrollTo = useScrollTo();
@@ -30,7 +30,7 @@ export function Agendar() {
   return (
     <section ref={root} id="agendar" aria-labelledby="agendar-titulo" className="bg-porcelana text-tinta">
       <div className="mx-auto max-w-[1600px] px-5 pb-10 pt-6 sm:px-8 lg:px-14">
-        <SecaoHeader tom="BL1" cor="--color-bl1" titulo="Agendar" />
+        <SecaoHeader numero="07" titulo="Agendar" />
 
         <div className="py-20 text-center lg:py-32">
           <p data-item data-gsap-pending className="font-mono text-xs text-tinta-soft sm:text-sm">
@@ -42,18 +42,18 @@ export function Agendar() {
             data-gsap-pending
             className="font-display mx-auto mt-6 max-w-[14ch] text-[clamp(3rem,13vw,5rem)] leading-[0.92] lg:text-[clamp(4.5rem,8.6vw,10rem)]"
           >
-            Vamos encontrar o <em className="italic text-rose">seu</em> tom?
+            Vamos cuidar do <em className="italic text-rose">seu</em> sorriso?
           </h2>
           <div className="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
               data-item
               data-gsap-pending
-              href={CLINICA.agendamento}
+              href={whatsapp()}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-6 rounded-full bg-cacau py-2.5 pl-7 pr-2.5 text-base font-medium text-porcelana transition-colors hover:bg-rose"
             >
-              Agendar avaliação
+              Agendar pelo WhatsApp
               <span className="grid size-11 place-items-center rounded-full bg-rose-2 text-cacau">↗</span>
             </a>
             <a
@@ -67,6 +67,9 @@ export function Agendar() {
               {CLINICA.instagram.usuario}
             </a>
           </div>
+          <p data-item data-gsap-pending className="mt-6 font-mono text-xs text-tinta-soft">
+            WhatsApp {CLINICA.whatsappExibicao}
+          </p>
         </div>
 
         <footer className="flex flex-col gap-6 border-t border-tinta/15 pt-6 sm:flex-row sm:items-end sm:justify-between">

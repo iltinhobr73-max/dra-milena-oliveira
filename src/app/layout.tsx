@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   description:
     "Cirurgiã-dentista em Fortaleza/CE. Clareamento dental, toxina botulínica (botox) e clínica geral. Agende sua avaliação.",
   openGraph: {
-    title: "Dra. Milena Oliveira — seu sorriso, no tom certo",
+    title: "Dra. Milena Oliveira — transformando vidas através do sorriso",
     description: "Clareamento, botox e clínica geral em Fortaleza. Agende sua avaliação.",
     locale: "pt_BR",
     type: "website",

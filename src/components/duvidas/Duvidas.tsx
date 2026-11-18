@@ -6,7 +6,7 @@ import { revealSecao, SecaoHeader } from "@/components/doc/Secao";
 import { DUVIDAS } from "@/content/clinica";
 
 /**
- * Dúvidas (tom BL2). Respostas abertas no HTML (legíveis sem JS); o GSAP
+ * Dúvidas. Respostas abertas no HTML (legíveis sem JS); o GSAP
  * fecha todas menos a primeira ao montar e anima abrir/fechar.
  */
 export function Duvidas() {
@@ -53,7 +53,7 @@ export function Duvidas() {
   return (
     <section ref={root} id="duvidas" aria-labelledby="duvidas-titulo" className="bg-perola text-tinta">
       <div className="mx-auto max-w-[1600px] px-5 pb-24 pt-6 sm:px-8 lg:px-14 lg:pb-36">
-        <SecaoHeader tom="BL2" cor="--color-b1" titulo="Dúvidas" />
+        <SecaoHeader numero="06" titulo="Dúvidas" />
 
         <div className="mt-14 grid gap-12 lg:mt-20 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-4">

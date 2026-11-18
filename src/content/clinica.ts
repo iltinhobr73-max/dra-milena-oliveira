@@ -6,6 +6,16 @@
  * publicidade odontológica — Resolução CFO nº 196/2019).
  */
 
+const WHATSAPP = "5585999446404";
+
+/** Link do WhatsApp com mensagem pronta (opcionalmente citando o tratamento). */
+export const whatsapp = (assunto?: string) =>
+  `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(
+    assunto
+      ? `Olá, Dra. Milena! Vim pelo site e gostaria de agendar uma avaliação de ${assunto}.`
+      : "Olá, Dra. Milena! Vim pelo site e gostaria de agendar uma avaliação.",
+  )}`;
+
 export const CLINICA = {
   nome: "Dra. Milena Oliveira",
   nomeCurto: "Milena Oliveira",
@@ -13,8 +23,8 @@ export const CLINICA = {
   /** Ex.: "CRO-CE 12345". Vazio = não aparece. Obrigatório antes de publicar (CFO 196/2019). */
   cro: "",
   cidade: "Fortaleza · Ceará",
+  whatsappExibicao: "(85) 99944-6404",
   instagram: { usuario: "@dramilenaoliveira", url: "https://www.instagram.com/dramilenaoliveira/" },
-  agendamento: "https://contate.me/dramilenaoliveira",
   lema: "Transformando vidas através do sorriso.",
   formacao: [
     { quando: "Graduação", oque: "Odontologia", onde: "Universidade de Fortaleza (UNIFOR)" },
@@ -23,28 +33,34 @@ export const CLINICA = {
   bio: "Sou Milena Oliveira, cirurgiã-dentista formada pela Universidade de Fortaleza e pós-graduanda em Estética Dentária. E é só o começo da minha jornada na Odontologia.",
 } as const;
 
-/** Tratamentos (a "pilha" da seção fixa). `tom` = posição simbólica na escala de cor. */
+/** Tratamentos: cada um tem a própria seção. */
 export const TRATAMENTOS = [
   {
     id: "clinica-geral",
-    tom: "A2",
     titulo: "Clínica Geral",
-    resumo: "A base de qualquer sorriso bonito é um sorriso saudável.",
+    assunto: "clínica geral",
+    chamada: "A base de qualquer sorriso bonito é um sorriso saudável.",
+    texto:
+      "Tudo começa por uma avaliação completa: entender a sua saúde bucal, o que incomoda e o que você deseja. A partir dela, montamos juntos o plano de tratamento — sem pressa e sem procedimentos desnecessários.",
     itens: ["Avaliação completa e plano de tratamento", "Limpeza e prevenção", "Restaurações"],
   },
   {
     id: "clareamento",
-    tom: "A1",
     titulo: "Clareamento",
-    resumo: "Dentes alguns tons mais claros, com acompanhamento em cada etapa.",
+    assunto: "clareamento",
+    chamada: "Dentes mais claros, com acompanhamento em cada etapa.",
+    texto:
+      "Antes de clarear, avaliamos a cor e a saúde dos dentes para indicar a técnica certa para você — de consultório ou caseira supervisionada — e acompanhamos de perto até o resultado.",
     itens: ["Avaliação de cor antes de começar", "Técnica de consultório ou caseira supervisionada", "Orientação para manter o resultado"],
   },
   {
     id: "botox",
-    tom: "BL1",
     titulo: "Botox",
-    resumo: "Toxina botulínica para suavizar linhas de expressão e tratar o bruxismo.",
-    itens: ["Linhas de expressão do terço superior", "Bruxismo e tensão muscular", "Aplicação planejada para um resultado natural"],
+    assunto: "botox",
+    chamada: "Suavizar linhas de expressão e aliviar o bruxismo, com naturalidade.",
+    texto:
+      "A toxina botulínica, aplicada pelo cirurgião-dentista, trata linhas de expressão do terço superior da face e o bruxismo. A aplicação é planejada para manter a sua expressão natural.",
+    itens: ["Linhas de expressão do terço superior", "Bruxismo e tensão muscular", "Aplicação planejada e acompanhamento"],
   },
 ] as const;
 
@@ -67,16 +83,6 @@ export const DUVIDAS = [
   },
   {
     pergunta: "Como agendar?",
-    resposta: "Pelo botão “Agendar avaliação”: você escolhe o melhor canal e o melhor horário. Na primeira consulta, avaliamos e montamos o plano juntos.",
+    resposta: "Pelo botão “Agendar avaliação”: ele abre o WhatsApp com a mensagem pronta. Na primeira consulta, avaliamos e montamos o plano juntos.",
   },
-] as const;
-
-/** Rótulos das seções na escala de cor: a página "clareia" de cima para baixo. */
-export const SECOES = [
-  { tom: "A3,5", titulo: "Início", href: "#top" },
-  { tom: "A2", titulo: "Tratamentos", href: "#tratamentos" },
-  { tom: "A1", titulo: "Sobre", href: "#sobre" },
-  { tom: "B1", titulo: "Consultório", href: "#consultorio" },
-  { tom: "BL2", titulo: "Dúvidas", href: "#duvidas" },
-  { tom: "BL1", titulo: "Agendar", href: "#agendar" },
 ] as const;

@@ -6,9 +6,8 @@ import { revealSecao, SecaoHeader } from "@/components/doc/Secao";
 import { CLINICA } from "@/content/clinica";
 
 /**
- * Sobre (tom A1). A foto vem recortada como uma aba da escala de cor
- * (topo reto, base arredondada) e "sobe" no lugar; a formação é uma linha
- * do tempo traçada.
+ * Sobre. A foto se revela de baixo para cima (base arredondada) e a
+ * formação é uma linha do tempo traçada.
  */
 export function Sobre() {
   const root = useRef<HTMLElement>(null);
@@ -39,9 +38,9 @@ export function Sobre() {
   );
 
   return (
-    <section ref={root} id="sobre" aria-labelledby="sobre-titulo" className="bg-nude text-tinta">
+    <section ref={root} id="sobre" aria-labelledby="sobre-titulo" className="bg-nude-2 text-tinta">
       <div className="mx-auto max-w-[1600px] px-5 pb-24 pt-6 sm:px-8 lg:px-14 lg:pb-36">
-        <SecaoHeader tom="A1" cor="--color-a1" titulo="Sobre" />
+        <SecaoHeader numero="05" titulo="Sobre" />
 
         <div className="mt-14 grid items-center gap-14 lg:mt-20 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-5">
@@ -49,9 +48,9 @@ export function Sobre() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 data-foto-img
-                src="/media/perfil.jpg"
+                src="/media/consultorio.jpg"
                 alt="Dra. Milena Oliveira no consultório"
-                className="h-[112%] w-full object-cover object-[50%_20%]"
+                className="h-[112%] w-full object-cover object-[50%_15%]"
               />
             </div>
           </div>
@@ -66,7 +65,7 @@ export function Sobre() {
               data-gsap-pending
               className="font-display mt-4 text-[clamp(2.6rem,10vw,4rem)] leading-[0.95] lg:text-[clamp(3.4rem,5.4vw,6.4rem)]"
             >
-              Transformando vidas através do <em className="italic text-rose">sorriso.</em>
+              Prazer, eu sou a <em className="italic text-rose">Milena.</em>
             </h2>
             <p data-item data-gsap-pending className="mt-8 max-w-[52ch] text-lg leading-relaxed text-tinta-soft sm:text-xl">
               {CLINICA.bio}
@@ -88,9 +87,20 @@ export function Sobre() {
                 </li>
               ))}
             </ol>
-            <p data-item data-gsap-pending className="font-display mt-4 text-2xl italic text-rose">
-              E é só o começo da jornada.
+            <p data-item data-gsap-pending className="mt-8 max-w-[52ch] text-lg leading-relaxed text-tinta-soft">
+              No consultório, o atendimento é sem pressa: tempo para explicar cada etapa e tirar as suas dúvidas antes
+              de começar.
             </p>
+            <a
+              data-item
+              data-gsap-pending
+              href={CLINICA.instagram.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-6 inline-flex items-center gap-3 border-b border-tinta pb-1 font-mono text-sm hover:text-rose"
+            >
+              Bastidores no Instagram {CLINICA.instagram.usuario} ↗
+            </a>
           </div>
         </div>
       </div>

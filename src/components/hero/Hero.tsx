@@ -3,29 +3,23 @@
 import { useRef } from "react";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { useScrollTo } from "@/components/providers/SmoothScroll";
-import { CLINICA } from "@/content/clinica";
+import { CLINICA, whatsapp } from "@/content/clinica";
 import { Logo } from "@/components/doc/Logo";
 
 /**
- * Hero — "seu sorriso, no tom certo".
+ * Hero — foto da Dra. Milena + o lema dela.
  *
- * Tensão tipográfica: antes de qualquer palavra, só a escala de cor aparece,
- * com o marcador parado no A3,5. A frase surge AMARELADA (no tom A3,5) e,
- * enquanto o marcador percorre a escala, ela clareia tom a tom até o branco
- * porcelana — o título passa por um clareamento.
+ * Tensão antes da primeira palavra: só uma linha rosé se desenha e o nome
+ * dela aparece; a foto se revela de baixo para cima num arco; só então a
+ * frase sobe, linha a linha, de dentro de máscaras.
  */
 
-const ESCALA = [
-  { tom: "A3,5", cor: "#d8bf8a" },
-  { tom: "A3", cor: "#e2cc9d" },
-  { tom: "A2", cor: "#ebdab6" },
-  { tom: "A1", cor: "#f2e7cf" },
-  { tom: "B1", cor: "#f7f0e3" },
-  { tom: "BL2", cor: "#fbf6ee" },
-  { tom: "BL1", cor: "#fdfbf8" },
+const LINHAS: { texto: string; enfase?: boolean }[] = [
+  { texto: "Transformando" },
+  { texto: "vidas através" },
+  { texto: "do sorriso.", enfase: true },
 ];
-
-const LINHAS = ["Seu sorriso,", "no tom certo."];
+const FRASE = LINHAS.map((l) => l.texto).join(" ");
 
 export function Hero() {
   const root = useRef<HTMLElement>(null);
@@ -40,53 +34,36 @@ export function Hero() {
         (ctx) => {
           const { reduce } = ctx.conditions as { reduce: boolean };
           gsap.set(q("[data-gsap-pending]"), { autoAlpha: 1 });
-          const codigo = q("[data-codigo]")[0];
-          const abas = q("[data-aba]") as HTMLElement[];
-          const marcador = q("[data-marcador]")[0];
-          const xDaAba = (i: number) => abas[i].offsetLeft + abas[i].offsetWidth / 2;
-
           if (reduce) {
             video.current?.pause();
-            gsap.set(marcador, { x: xDaAba(abas.length - 1) });
             return;
           }
 
           /* ---------- Estado inicial ---------- */
           gsap.set(q("[data-hero-video]"), { autoAlpha: 0, scale: 1.08 });
           gsap.set(q("[data-hero-meta]"), { autoAlpha: 0, y: -10 });
-          gsap.set(abas, { autoAlpha: 0, y: 14 });
-          gsap.set(q("[data-escala-legenda]"), { autoAlpha: 0 });
-          gsap.set(marcador, { autoAlpha: 0, x: xDaAba(0) });
-          if (codigo) codigo.textContent = ESCALA[0].tom;
-          gsap.set(q("[data-linha]"), { autoAlpha: 0, y: 40, filter: "blur(10px)", color: ESCALA[0].cor });
+          gsap.set(q("[data-fio]"), { scaleY: 0, transformOrigin: "50% 0%" });
+          gsap.set(q("[data-assinatura]"), { autoAlpha: 0, y: 12 });
+          gsap.set(q("[data-foto]"), { clipPath: "inset(100% 0% 0% 0% round 999px 999px 0px 0px)" });
+          gsap.set(q("[data-foto-img]"), { scale: 1.25 });
+          gsap.set(q("[data-linha]"), { yPercent: 115 });
           gsap.set(q("[data-hero-fade]"), { autoAlpha: 0, y: 22 });
           gsap.set(q("[data-hero-indicador]"), { autoAlpha: 0 });
 
-          // Clareamento: um número 0→1 que percorre a escala.
-          const cor = gsap.utils.interpolate(ESCALA.map((e) => e.cor));
-          const estado = { p: 0 };
-          const aplicar = () => {
-            const i = Math.round(estado.p * (ESCALA.length - 1));
-            gsap.set(q("[data-linha]"), { color: cor(estado.p) });
-            if (codigo) codigo.textContent = ESCALA[i].tom;
-            const x = gsap.utils.interpolate(xDaAba(0), xDaAba(abas.length - 1), estado.p);
-            gsap.set(marcador, { x });
-          };
-
           gsap
             .timeline({ delay: 0.2 })
-            .to(q("[data-hero-video]"), { autoAlpha: 1, scale: 1, duration: 2.4, ease: "power3.out" }, 0)
+            .to(q("[data-hero-video]"), { autoAlpha: 1, scale: 1, duration: 2.2, ease: "power3.out" }, 0)
             .to(q("[data-hero-meta]"), { autoAlpha: 1, y: 0, duration: 0.8, ease: "power3.out", stagger: 0.2 }, 0.2)
-            // 1. Só a escala de cor, aba por aba. O marcador para no A3,5.
-            .to(abas, { autoAlpha: 1, y: 0, duration: 0.7, ease: "power3.out", stagger: 0.08 }, 0.5)
-            .to([marcador, ...q("[data-escala-legenda]")], { autoAlpha: 1, duration: 0.7, ease: "power3.out" }, 1.0)
-            // 2. A frase aparece… amarelada.
-            .to(q("[data-linha]"), { autoAlpha: 1, y: 0, filter: "blur(0px)", duration: 1.1, ease: "power3.out", stagger: 0.2 }, 1.7)
-            // 3. Clareia: o marcador percorre a escala e a tinta da frase acompanha.
-            .to(estado, { p: 1, duration: 2.0, ease: "power3.inOut", onUpdate: aplicar }, 2.9)
-            // 4. O resto.
-            .to(q("[data-hero-fade]"), { autoAlpha: 1, y: 0, duration: 0.8, ease: "power3.out", stagger: 0.2 }, 4.2)
-            .to(q("[data-hero-indicador]"), { autoAlpha: 1, duration: 0.8, ease: "power3.out" }, 4.8);
+            // 1. Silêncio: uma linha rosé desce e o nome dela aparece.
+            .to(q("[data-fio]"), { scaleY: 1, duration: 1.2, ease: "expo.inOut" }, 0.5)
+            .to(q("[data-assinatura]"), { autoAlpha: 1, y: 0, duration: 0.8, ease: "power3.out" }, 1.0)
+            // 2. A foto se revela de baixo para cima, num arco.
+            .to(q("[data-foto]"), { clipPath: "inset(0% 0% 0% 0% round 999px 999px 0px 0px)", duration: 1.5, ease: "expo.inOut" }, 1.4)
+            .to(q("[data-foto-img]"), { scale: 1, duration: 2.0, ease: "expo.out" }, 1.6)
+            // 3. Só então a frase, linha a linha.
+            .to(q("[data-linha]"), { yPercent: 0, duration: 1.1, ease: "expo.out", stagger: 0.2 }, 2.4)
+            .to(q("[data-hero-fade]"), { autoAlpha: 1, y: 0, duration: 0.8, ease: "power3.out", stagger: 0.2 }, 3.2)
+            .to(q("[data-hero-indicador]"), { autoAlpha: 1, duration: 0.8, ease: "power3.out" }, 3.9);
 
           gsap
             .timeline({ repeat: -1, repeatDelay: 0.4 })
@@ -102,19 +79,25 @@ export function Hero() {
             scrollTrigger: { trigger: root.current, start: "top top", end: "+=160", scrub: true },
           });
           gsap.to(q("[data-hero-video-wrap]"), { yPercent: 14, ease: "power3.inOut", scrollTrigger: st });
-          gsap.to(q("[data-hero-conteudo]"), { y: -70, autoAlpha: 0.2, ease: "power3.inOut", scrollTrigger: st });
+          gsap.to(q("[data-foto-img]"), { yPercent: -7, ease: "power3.inOut", scrollTrigger: st });
+          gsap.to(q("[data-hero-texto]"), { y: -60, autoAlpha: 0.2, ease: "power3.inOut", scrollTrigger: st });
         },
       );
     },
     { scope: root },
   );
 
+  const ancora = (id: string) => (e: React.MouseEvent) => {
+    e.preventDefault();
+    scrollTo(id);
+  };
+
   return (
     <section
       ref={root}
       id="top"
       aria-label="Início"
-      className="relative isolate flex h-svh min-h-[640px] w-full flex-col overflow-hidden bg-cacau text-porcelana"
+      className="relative isolate flex min-h-svh w-full flex-col overflow-hidden bg-cacau text-porcelana lg:h-svh lg:min-h-[680px]"
     >
       {/* ---------- Vídeo: luz perolada ---------- */}
       <div data-hero-video-wrap aria-hidden className="absolute inset-0 -z-10">
@@ -130,114 +113,107 @@ export function Hero() {
           playsInline
           preload="auto"
         />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(36,26,23,0.9)_0%,rgba(36,26,23,0.55)_50%,rgba(36,26,23,0.15)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(36,26,23,0.92)_0%,rgba(36,26,23,0.6)_55%,rgba(36,26,23,0.35)_100%)]" />
       </div>
 
-      <div
-        data-hero-conteudo
-        className="relative mx-auto flex w-full max-w-[1600px] flex-1 flex-col px-5 pb-7 pt-6 sm:px-8 sm:pb-9 lg:px-14"
-      >
+      <div className="relative mx-auto flex w-full max-w-[1600px] flex-1 flex-col px-5 pb-8 pt-6 sm:px-8 lg:px-14">
         {/* ---------- Topo ---------- */}
         <div className="flex items-center justify-between gap-4">
           <span data-hero-meta data-gsap-pending>
             <Logo className="text-[15px] sm:text-[17px]" />
           </span>
-          <span data-hero-meta data-gsap-pending className="hidden font-mono text-xs text-porcelana/65 md:inline">
-            Clínica Geral · Clareamento · Botox
-          </span>
+          <nav data-hero-meta data-gsap-pending aria-label="Seções" className="hidden gap-7 font-mono text-xs text-porcelana/70 md:flex">
+            <a href="#tratamentos" onClick={ancora("#tratamentos")} className="hover:text-porcelana">Tratamentos</a>
+            <a href="#sobre" onClick={ancora("#sobre")} className="hover:text-porcelana">Sobre</a>
+            <a href="#duvidas" onClick={ancora("#duvidas")} className="hover:text-porcelana">Dúvidas</a>
+          </nav>
           <a
             data-hero-meta
             data-gsap-pending
-            href={CLINICA.agendamento}
+            href={whatsapp()}
             target="_blank"
             rel="noopener noreferrer"
             className="rounded-full border border-porcelana/30 px-4 py-2 font-mono text-[11px] text-porcelana transition-colors hover:border-rose-2 hover:text-rose-2 sm:text-xs"
           >
-            Agendar
+            WhatsApp
           </a>
         </div>
 
-        {/* ---------- Escala de cor + título ---------- */}
-        <div className="my-auto pt-10">
-          <div className="relative w-max">
-            <div className="flex items-end gap-1.5 sm:gap-2" aria-hidden>
-              {ESCALA.map((e) => (
-                <span key={e.tom} data-aba className="flex flex-col items-center gap-1.5">
-                  <span
-                    className="block h-8 w-4 rounded-b-full shadow-[inset_0_-6px_8px_rgba(0,0,0,0.08)] sm:h-10 sm:w-5"
-                    style={{ background: e.cor }}
-                  />
-                  <span className="font-mono text-[8.5px] text-porcelana/50 sm:text-[9.5px]">{e.tom}</span>
-                </span>
-              ))}
+        <div className="mt-8 grid flex-1 items-center gap-10 lg:mt-0 lg:grid-cols-12 lg:gap-8">
+          {/* ---------- Foto ---------- */}
+          <div className="relative order-1 lg:order-2 lg:col-span-5 lg:col-start-8 lg:self-end">
+            <span data-fio aria-hidden className="absolute -top-2 left-1/2 hidden h-16 w-px bg-rose-2 lg:block" />
+            <div
+              data-foto
+              className="relative mx-auto aspect-[4/5] w-[min(78%,20rem)] overflow-hidden rounded-t-[999px] lg:w-full lg:max-w-[32rem]"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                data-foto-img
+                src="/media/perfil.jpg"
+                alt="Dra. Milena Oliveira, cirurgiã-dentista"
+                className="h-[110%] w-full object-cover object-[50%_25%]"
+                fetchPriority="high"
+              />
+              <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-cacau/70 to-transparent" />
             </div>
-            {/* marcador que percorre a escala */}
-            <span data-marcador aria-hidden className="absolute -top-3 left-0 block h-2 w-px bg-rose-2">
-              <span className="absolute -left-[3px] -top-1.5 block size-[7px] rounded-full bg-rose-2" />
-            </span>
+            <p
+              data-assinatura
+              data-gsap-pending
+              className="mx-auto mt-4 w-[min(78%,20rem)] font-mono text-[11px] text-porcelana/70 lg:w-full lg:max-w-[32rem] lg:text-xs"
+            >
+              {CLINICA.nome} · {CLINICA.profissao} · {CLINICA.cidade}
+            </p>
           </div>
-          <p data-escala-legenda className="mt-3 font-mono text-[11px] text-porcelana/60 sm:text-xs" aria-hidden>
-            tom: <span data-codigo className="text-porcelana">BL1</span>
-          </p>
 
-          <h1 className="font-display mt-6 text-[clamp(3rem,13.5vw,10.5rem)] leading-[0.92] sm:mt-8 md:text-[clamp(3.6rem,11.2vw,12.5rem)]">
-            {LINHAS.map((l, i) => (
-              <span key={l} data-linha data-gsap-pending className="block whitespace-nowrap pb-[0.04em]">
-                {i === 1 ? (
-                  <>
-                    no tom <em className="italic">certo.</em>
-                  </>
-                ) : (
-                  l
-                )}
+          {/* ---------- Texto ---------- */}
+          <div data-hero-texto className="order-2 lg:order-1 lg:col-span-7">
+            <h1 className="font-display text-[clamp(2.9rem,13vw,4.6rem)] leading-[0.95] lg:text-[clamp(4rem,7.2vw,8.6rem)]">
+              <span className="sr-only">{FRASE}</span>
+              <span aria-hidden>
+                {LINHAS.map((l) => (
+                  <span key={l.texto} className="block overflow-hidden pb-[0.08em]">
+                    <span data-linha className={`block whitespace-nowrap ${l.enfase ? "italic text-rose-2" : ""}`}>
+                      {l.texto}
+                    </span>
+                  </span>
+                ))}
               </span>
-            ))}
-          </h1>
-        </div>
-
-        {/* ---------- Base ---------- */}
-        <div className="mt-8 grid gap-7 md:grid-cols-[minmax(0,32rem)_auto] md:items-end md:justify-between">
-          <p data-hero-fade data-gsap-pending className="max-w-[32rem] text-base leading-relaxed text-porcelana/80 sm:text-lg">
-            {CLINICA.profissao} em Fortaleza. Clínica geral, clareamento e botox — sempre com avaliação
-            cuidadosa antes de qualquer tratamento.
-          </p>
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center md:justify-end">
-            <a
-              data-hero-fade
-              data-gsap-pending
-              href={CLINICA.agendamento}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group flex items-center justify-between gap-6 rounded-full bg-rose-2 py-2 pl-6 pr-2 text-[15px] font-medium text-cacau transition-colors hover:bg-porcelana"
-            >
-              Agendar avaliação
-              <span className="grid size-10 place-items-center rounded-full bg-cacau text-porcelana">↗</span>
-            </a>
-            <a
-              data-hero-fade
-              data-gsap-pending
-              href="#tratamentos"
-              onClick={(e) => {
-                e.preventDefault();
-                scrollTo("#tratamentos");
-              }}
-              className="px-2 py-3 text-center font-mono text-xs text-porcelana/75 underline decoration-porcelana/30 underline-offset-4 hover:text-porcelana"
-            >
-              Ver tratamentos
-            </a>
+            </h1>
+            <p data-hero-fade data-gsap-pending className="mt-7 max-w-[32rem] text-base leading-relaxed text-porcelana/80 sm:text-lg">
+              Clínica geral, clareamento e botox em Fortaleza — sempre com uma avaliação cuidadosa antes de qualquer
+              tratamento.
+            </p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+              <a
+                data-hero-fade
+                data-gsap-pending
+                href={whatsapp()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-between gap-6 rounded-full bg-rose-2 py-2 pl-6 pr-2 text-[15px] font-medium text-cacau transition-colors hover:bg-porcelana"
+              >
+                Agendar pelo WhatsApp
+                <span className="grid size-10 place-items-center rounded-full bg-cacau text-porcelana">↗</span>
+              </a>
+              <a
+                data-hero-fade
+                data-gsap-pending
+                href="#tratamentos"
+                onClick={ancora("#tratamentos")}
+                className="px-2 py-3 text-center font-mono text-xs text-porcelana/75 underline decoration-porcelana/30 underline-offset-4 hover:text-porcelana"
+              >
+                Ver tratamentos
+              </a>
+            </div>
           </div>
         </div>
       </div>
 
       {/* ---------- Indicador de scroll ---------- */}
-      <div
-        data-hero-indicador
-        data-gsap-pending
-        aria-hidden
-        className="pointer-events-none absolute bottom-24 right-6 hidden lg:block xl:right-10"
-      >
+      <div data-hero-indicador data-gsap-pending aria-hidden className="pointer-events-none absolute bottom-8 left-1/2 hidden lg:block">
         <div data-hero-indicador-inner className="flex flex-col items-center gap-3">
-          <span className="font-mono text-[10px] text-porcelana/60 [writing-mode:vertical-rl]">role</span>
+          <span className="font-mono text-[10px] text-porcelana/60">role</span>
           <span className="relative block h-14 w-px overflow-hidden bg-porcelana/20">
             <span data-hero-ponto className="absolute left-0 top-0 block h-2.5 w-px bg-rose-2" />
           </span>

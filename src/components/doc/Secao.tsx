@@ -2,34 +2,13 @@
 
 import { gsap } from "@/lib/gsap";
 
-/**
- * Cabeçalho de seção como uma "aba" da escala de cor: uma amostra do tom,
- * o código (A2, A1, B1…) e o nome da seção. Descendo a página, os tons
- * clareiam — o site inteiro é um clareamento.
- */
-export function SecaoHeader({
-  tom,
-  cor,
-  titulo,
-  escuro = false,
-}: {
-  tom: string;
-  /** cor da amostra (variável CSS da escala) */
-  cor: string;
-  titulo: string;
-  escuro?: boolean;
-}) {
+/** Cabeçalho de seção: número + nome + linha fina. */
+export function SecaoHeader({ numero, titulo, escuro = false }: { numero: string; titulo: string; escuro?: boolean }) {
   return (
     <div className={`font-mono text-[11px] leading-none sm:text-xs ${escuro ? "text-porcelana/70" : "text-tinta-soft"}`}>
       <div className="flex items-center justify-between gap-4">
         <span className="flex items-center gap-3">
-          <span
-            aria-hidden
-            className={`block h-5 w-3 rounded-b-full border ${escuro ? "border-porcelana/30" : "border-tinta/15"}`}
-            style={{ background: `var(${cor})` }}
-          />
-          <span className={escuro ? "text-porcelana" : "text-tinta"}>{tom}</span>
-          <span>·</span>
+          <span className={escuro ? "text-rose-2" : "text-rose"}>{numero}</span>
           <span>{titulo}</span>
         </span>
         <span className="hidden sm:inline">Dra. Milena Oliveira</span>

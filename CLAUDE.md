@@ -27,22 +27,20 @@ Stack: Next.js (App Router, `src/`), TypeScript, Tailwind CSS v4, GSAP + ScrollT
 
 ## Onde fica cada coisa
 
-- `src/content/clinica.ts` — **todos os dados** (nome, CRO, Instagram, link de agendamento, bio, formação, tratamentos, dúvidas). Altere aqui, não nos componentes.
+- `src/content/clinica.ts` — **todos os dados** (nome, CRO, WhatsApp, Instagram, bio, formação, tratamentos, dúvidas). `whatsapp(assunto?)` gera o link do WhatsApp (85) 99944-6404 com a mensagem pronta — todo botão de agendar usa ele.
 - `src/lib/gsap.ts` — registra os plugins. Importe `gsap`, `ScrollTrigger` e `useGSAP` sempre daqui.
-- `src/components/providers/SmoothScroll.tsx` — Lenis único + `useScrollTo()` (âncoras; `duration`, `ease` power3/expo, `lock`, `onComplete`, `interno`), `useScrollLock()`, `useNavegacao()` + evento `FIM_NAVEGACAO`. Âncora de seção fixada mira o início do pin (+2px).
-- `src/lib/passoAPasso.ts` — **celular: uma passada = uma parada** em qualquer seção fixada (Observer + Lenis). Já resolve navegação atravessando a seção, saltos/recarregar e saída nas pontas.
-- `src/components/doc/Secao.tsx` — `SecaoHeader` (aba da escala de cor: amostra + código + nome) e `revealSecao()` (linha expo.inOut, `[data-item]` stagger 0.2 power3.out, `[data-draw]` linhas traçadas).
-- Seções: `hero/` (A3,5) · `tratamentos/` (A2, pin) · `sobre/` (A1) · `consultorio/` (B1) · `duvidas/` (BL2) · `agendar/` (BL1). `flutuante/` = botão "Agendar" (renderizado depois das seções).
-- Hero: a escala de cor aparece primeiro com o marcador parado em A3,5; a frase surge amarelada e **clareia** tom a tom até o branco enquanto o marcador percorre a escala.
-- Tratamentos: pin; cartões porcelana empilham; no clareamento, o antes/depois é revelado pelo scroll (cortina `[data-depois]`).
-- `public/media/perola.mp4` — vídeo de luz perolada (gerado, provisório). Fotos (`perfil`, `procedimento`, `consultorio`, `antes`/`depois`) vieram do Instagram (~600px) e foram ampliadas 4× com super-resolução (OpenCV EDSR ×4 + redução de ruído + nitidez leve). Fotos novas: passar pelo mesmo processo ou, melhor, usar originais em alta.
+- `src/components/providers/SmoothScroll.tsx` — Lenis único + `useScrollTo()` (âncoras; `duration`, `ease` power3/expo, `lock`, `onComplete`, `interno`), `useScrollLock()`, `useNavegacao()` + evento `FIM_NAVEGACAO`.
+- `src/components/doc/Secao.tsx` — `SecaoHeader` (número + nome + linha) e `revealSecao()` (linha expo.inOut, `[data-item]` stagger 0.2 power3.out, `[data-draw]` linhas traçadas).
+- Página: `hero/` · `tratamento/TratamentosIntro` (01) · `tratamento/Tratamento` ×3 — Clínica Geral (02), Clareamento (03, antes/depois guiado pelo scroll, sem pin), Botox (04) · `sobre/` (05) · `duvidas/` (06) · `agendar/` (07). `flutuante/` = botão WhatsApp.
+- Hero: foto dela num arco + lema. Tensão: linha rosé desenha e o nome aparece → a foto se revela de baixo para cima → só então a frase sobe linha a linha.
+- `public/media/perola.mp4` — vídeo de luz perolada (gerado, provisório). Fotos vieram do Instagram (~600px) e foram ampliadas 4× com super-resolução (OpenCV EDSR ×4 + redução de ruído + nitidez leve). Uso: `perfil` (hero), `consultorio` (sobre), `procedimento` (botox), `antes`/`depois` (clareamento).
 
 ## Direção de arte
 
-- **Conceito: o site é um clareamento.** Cada seção é rotulada com um tom da escala de cor (A3,5 → BL1) e o fundo vai do cacau (hero) ao branco porcelana (agendar).
-- Paleta: `cacau` (fundos escuros), `nude`/`perola`/`porcelana` (fundos claros, do mais quente ao mais branco), `rose`/`rose-2` (rosé dourado do perfil dela: destaques e botões), `tinta` (texto). Escala: `a35 a3 a2 a1 b1 bl1`.
-- Tipografia: Fraunces macia (`.font-display`, itálico para a palavra de ênfase), Inter Tight (texto), IBM Plex Mono (códigos de tom e metadados).
-- Fotos sempre na cor original.
+- Fundo vai do cacau (hero, tratamentos) aos claros quentes (`nude`, `nude-2`, `perola`) até o branco `porcelana` no fim. Sem códigos de "tom"/escala de cor no site (pedido da cliente).
+- Paleta: `cacau` (escuros), `nude`/`nude-2`/`perola`/`porcelana` (claros), `rose`/`rose-2` (rosé dourado: destaques e botões), `tinta` (texto).
+- Tipografia: Fraunces macia (`.font-display`, itálico na palavra de ênfase), Inter Tight (texto), IBM Plex Mono (metadados).
+- Fotos sempre na cor original. Animações simples e elegantes: sem seção fixada (pin) — a cliente preferiu páginas separadas.
 
 ## Armadilhas conhecidas
 
@@ -52,7 +50,7 @@ Stack: Next.js (App Router, `src/`), TypeScript, Tailwind CSS v4, GSAP + ScrollT
 - **Pin + Lenis: nunca usar `anticipatePin`.** Ele prevê o pin pela velocidade do scroll nativo, mas aqui o `ScrollTrigger.update` vem do Lenis; em flicks no celular o palco saltava ~110px.
 - **Comprimento de pin/scrub em altura estável**: use a altura de um elemento `h-svh` (ex.: `stage.clientHeight`), nunca `window.innerHeight` — no celular ele muda com a barra de endereço e o pin muda de tamanho a cada refresh.
 - `ScrollTrigger.config({ ignoreMobileResize: true })` fica em `src/lib/gsap.ts` (resize só de altura no touch não recalcula triggers).
-- **Snap do ScrollTrigger no celular não serve para "uma passada = um passo"**: compete com a rolagem nativa do dedo e é interrompido em passadas longas. Use `src/lib/passoAPasso.ts` (Observer + Lenis).
+- **Snap do ScrollTrigger no celular não serve para "uma passada = um passo"**: compete com a rolagem nativa do dedo e é interrompido em passadas longas. Se um dia voltar a ter pin no celular, use o padrão Observer + Lenis do projeto site-consorcios (`passoAPasso`).
 - Qualquer componente que reage a entrar/sair de uma seção deve: (1) ignorar a entrada durante uma navegação (`useNavegacao()`); (2) esperar um quadro e confirmar `isActive` antes de agir — saltos por cima da seção (recarregar a página, "localizar") disparam entrar+sair juntos; (3) nunca prender o usuário — nas pontas, devolver a rolagem.
 - Labels de encaixe/parada ficam DENTRO do pin, nunca no início/fim exato (ali a seção ainda não conta como ativa).
 - Elementos com fundo opaco empilhados devem ter a visibilidade controlada pela própria timeline, não só os filhos.
