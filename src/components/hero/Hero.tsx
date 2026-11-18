@@ -6,14 +6,18 @@ import { useScrollTo } from "@/components/providers/SmoothScroll";
 import { CLINICA, whatsapp } from "@/content/clinica";
 
 /**
- * Hero editorial (como capa de revista de beleza).
+ * Hero em tela cheia.
  *
- * Vídeo em loop = a própria Dra. Milena, numa aproximação lenta de câmera.
- * Tensão antes da primeira palavra: uma linha fina em forma de SORRISO se
- * desenha atravessando a tela; a foto aparece; só então o lema sobe.
+ * Computador: tela dividida de ponta a ponta — à direita, a Dra. Milena em
+ * vídeo (aproximação lenta) do topo ao rodapé; à esquerda, painel nude com
+ * o lema em letra grande.
+ * Celular: ela ocupa a tela inteira; o texto fica sobre um degradê embaixo.
+ *
+ * Tensão antes da primeira palavra: a tela abre como cortina — o painel
+ * desliza, a foto sobe — e só então a frase entra, palavra por palavra.
  */
 
-const LINHAS = ["Transformando vidas", "através do sorriso."];
+const FRASE = ["Transformando", "vidas", "através", "do", "sorriso."];
 
 export function Hero() {
   const root = useRef<HTMLElement>(null);
@@ -24,40 +28,40 @@ export function Hero() {
     () => {
       const q = gsap.utils.selector(root);
       gsap.matchMedia().add(
-        { motion: "(prefers-reduced-motion: no-preference)", reduce: "(prefers-reduced-motion: reduce)" },
+        {
+          motion: "(prefers-reduced-motion: no-preference)",
+          reduce: "(prefers-reduced-motion: reduce)",
+          desktop: "(min-width: 1024px)",
+        },
         (ctx) => {
-          const { reduce } = ctx.conditions as { reduce: boolean };
+          const { reduce, desktop } = ctx.conditions as { reduce: boolean; desktop: boolean };
           gsap.set(q("[data-gsap-pending]"), { autoAlpha: 1 });
-          const curva = root.current?.querySelector<SVGPathElement>("[data-sorriso]") ?? undefined;
-          const comprimento = curva?.getTotalLength() ?? 0;
           if (reduce) {
             video.current?.pause();
             return;
           }
 
           /* ---------- Estado inicial ---------- */
-          gsap.set(q("[data-hero-meta]"), { autoAlpha: 0 });
-          if (curva) gsap.set(curva, { strokeDasharray: comprimento, strokeDashoffset: comprimento });
-          gsap.set(q("[data-foto]"), { clipPath: "inset(0% 0% 100% 0%)" });
-          gsap.set(q("[data-foto] video"), { scale: 1.15 });
-          gsap.set(q("[data-legenda]"), { autoAlpha: 0, y: 10 });
-          gsap.set(q("[data-linha]"), { yPercent: 110 });
+          gsap.set(q("[data-painel]"), { scaleX: 0, transformOrigin: "0% 50%" });
+          gsap.set(q("[data-foto]"), { clipPath: "inset(100% 0% 0% 0%)" });
+          gsap.set(q("[data-foto] video"), { scale: 1.18 });
+          gsap.set(q("[data-hero-meta]"), { autoAlpha: 0, y: -10 });
+          gsap.set(q("[data-palavra]"), { yPercent: 110 });
           gsap.set(q("[data-hero-fade]"), { autoAlpha: 0, y: 20 });
           gsap.set(q("[data-hero-indicador]"), { autoAlpha: 0 });
 
           gsap
-            .timeline({ delay: 0.25 })
-            .to(q("[data-hero-meta]"), { autoAlpha: 1, duration: 0.9, ease: "power3.out", stagger: 0.2 }, 0)
-            // 1. Silêncio: só a linha do sorriso se desenha, devagar.
-            .to(curva ?? {}, { strokeDashoffset: 0, duration: 1.8, ease: "expo.inOut" }, 0.3)
-            // 2. A foto desce como uma cortina se abrindo.
-            .to(q("[data-foto]"), { clipPath: "inset(0% 0% 0% 0%)", duration: 1.4, ease: "expo.inOut" }, 1.5)
-            .to(q("[data-foto] video"), { scale: 1, duration: 2.2, ease: "expo.out" }, 1.6)
-            .to(q("[data-legenda]"), { autoAlpha: 1, y: 0, duration: 0.8, ease: "power3.out" }, 2.6)
-            // 3. Só então o lema.
-            .to(q("[data-linha]"), { yPercent: 0, duration: 1.2, ease: "expo.out", stagger: 0.2 }, 2.3)
-            .to(q("[data-hero-fade]"), { autoAlpha: 1, y: 0, duration: 0.8, ease: "power3.out", stagger: 0.2 }, 3.1)
-            .to(q("[data-hero-indicador]"), { autoAlpha: 1, duration: 0.8, ease: "power3.out" }, 3.8);
+            .timeline({ delay: 0.15 })
+            // 1. A cortina: o painel nude desliza (no celular, direto a foto).
+            .to(q("[data-painel]"), { scaleX: 1, duration: 1.2, ease: "expo.inOut" }, 0)
+            // 2. Ela sobe, ocupando o quadro.
+            .to(q("[data-foto]"), { clipPath: "inset(0% 0% 0% 0%)", duration: 1.5, ease: "expo.inOut" }, desktop ? 0.6 : 0.1)
+            .to(q("[data-foto] video"), { scale: 1, duration: 2.4, ease: "expo.out" }, desktop ? 0.8 : 0.3)
+            .to(q("[data-hero-meta]"), { autoAlpha: 1, y: 0, duration: 0.8, ease: "power3.out", stagger: 0.2 }, 1.4)
+            // 3. Só então a frase, palavra por palavra.
+            .to(q("[data-palavra]"), { yPercent: 0, duration: 1.1, ease: "expo.out", stagger: 0.12 }, 1.7)
+            .to(q("[data-hero-fade]"), { autoAlpha: 1, y: 0, duration: 0.8, ease: "power3.out", stagger: 0.2 }, 2.6)
+            .to(q("[data-hero-indicador]"), { autoAlpha: 1, duration: 0.8, ease: "power3.out" }, 3.2);
 
           /* ---------- Scroll ---------- */
           const st = { trigger: root.current, start: "top top", end: "bottom top", scrub: true };
@@ -66,143 +70,105 @@ export function Hero() {
             ease: "power3.out",
             scrollTrigger: { trigger: root.current, start: "top top", end: "+=140", scrub: true },
           });
-          gsap.to(q("[data-foto]"), { yPercent: -6, ease: "power3.inOut", scrollTrigger: st });
-          gsap.to(q("[data-hero-texto]"), { y: -50, ease: "power3.inOut", scrollTrigger: st });
+          gsap.to(q("[data-foto] video"), { yPercent: 8, ease: "power3.inOut", scrollTrigger: st });
+          gsap.to(q("[data-hero-texto]"), { y: -60, ease: "power3.inOut", scrollTrigger: st });
         },
       );
     },
     { scope: root },
   );
 
+  const ancora = (href: string) => (e: React.MouseEvent) => {
+    e.preventDefault();
+    scrollTo(href);
+  };
+
   return (
     <section
       ref={root}
       id="top"
       aria-label="Início"
-      className="relative isolate flex min-h-svh w-full flex-col overflow-hidden bg-porcelana text-tinta lg:h-svh lg:min-h-[700px]"
+      className="relative isolate h-svh min-h-[620px] w-full overflow-hidden bg-cacau text-porcelana lg:min-h-[700px] lg:bg-porcelana lg:text-tinta"
     >
-      {/* A linha do sorriso, atravessando a tela atrás de tudo */}
-      <svg aria-hidden viewBox="0 0 1440 900" preserveAspectRatio="none" className="pointer-events-none absolute inset-0 -z-10 hidden h-full w-full lg:block">
-        <path
-          data-sorriso
-          d="M -40 800 C 380 975, 1000 960, 1500 610"
-          fill="none"
-          stroke="var(--color-rose-2)"
-          strokeWidth="1.4"
-          vectorEffect="non-scaling-stroke"
-        />
-      </svg>
+      {/* ---------- Painel nude (computador) ---------- */}
+      <div data-painel aria-hidden className="absolute inset-y-0 left-0 -z-10 hidden w-[56%] bg-nude lg:block" />
 
-      <div className="relative mx-auto flex w-full max-w-[1500px] flex-1 flex-col px-5 pb-8 pt-6 sm:px-8 lg:px-14">
+      {/* ---------- Ela, em vídeo, de ponta a ponta ---------- */}
+      <div data-foto className="absolute inset-x-0 top-0 -z-20 h-[66%] overflow-hidden lg:inset-y-0 lg:left-[56%] lg:right-0 lg:z-0 lg:h-auto">
+        <video
+          ref={video}
+          className="h-full w-full object-cover object-[50%_18%] lg:object-[50%_22%]"
+          src="/media/milena.mp4"
+          poster="/media/milena-poster.jpg"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          aria-label="Dra. Milena Oliveira em seu consultório"
+        />
+        {/* celular: degradê para o texto embaixo */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_top,#241a17_0%,rgba(36,26,23,0.7)_22%,rgba(36,26,23,0)_50%,rgba(36,26,23,0)_82%,rgba(36,26,23,0.45)_100%)] lg:hidden" />
+      </div>
+
+      <div className="relative mx-auto flex h-full w-full max-w-[1600px] flex-col px-5 pb-8 pt-6 sm:px-8 lg:px-14 lg:pb-10">
         {/* ---------- Topo ---------- */}
-        <header className="flex items-baseline justify-between gap-4 text-sm">
-          <span data-hero-meta data-gsap-pending className="font-display text-lg">
+        <header className="flex items-center justify-between gap-6 text-sm lg:w-[calc(56%-3.5rem)]">
+          <span data-hero-meta data-gsap-pending className="font-display text-lg lg:text-xl">
             {CLINICA.nome}
           </span>
-          <nav data-hero-meta data-gsap-pending aria-label="Seções" className="hidden gap-8 text-tinta-soft md:flex">
-            {[
-              ["#tratamentos", "Tratamentos"],
-              ["#sobre", "Sobre"],
-              ["#duvidas", "Dúvidas"],
-            ].map(([href, nome]) => (
-              <a
-                key={href}
-                href={href}
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollTo(href);
-                }}
-                className="hover:text-tinta"
-              >
-                {nome}
-              </a>
-            ))}
+          <nav data-hero-meta data-gsap-pending aria-label="Seções" className="hidden gap-7 text-tinta-soft xl:flex">
+            <a href="#tratamentos" onClick={ancora("#tratamentos")} className="hover:text-tinta">Tratamentos</a>
+            <a href="#sobre" onClick={ancora("#sobre")} className="hover:text-tinta">Sobre</a>
+            <a href="#duvidas" onClick={ancora("#duvidas")} className="hover:text-tinta">Dúvidas</a>
           </nav>
-          <a
-            data-hero-meta
-            data-gsap-pending
-            href={whatsapp()}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="border-b border-tinta pb-0.5 hover:border-rose hover:text-rose"
-          >
-            Agendar
-          </a>
         </header>
 
-        <div className="mt-10 grid flex-1 items-center gap-10 lg:mt-0 lg:grid-cols-12 lg:gap-12">
-          {/* ---------- Foto (vídeo) ---------- */}
-          <figure className="order-1 lg:order-2 lg:col-span-5 lg:col-start-8">
-            <div data-foto className="relative mx-auto aspect-[4/5] w-full max-w-[24rem] overflow-hidden bg-nude lg:max-w-none">
-              <video
-                ref={video}
-                className="h-full w-full object-cover"
-                src="/media/milena.mp4"
-                poster="/media/milena-poster.jpg"
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="auto"
-                aria-label="Dra. Milena Oliveira em seu consultório"
-              />
-            </div>
-            <figcaption
-              data-legenda
-              data-gsap-pending
-              className="mx-auto mt-3 flex max-w-[24rem] justify-between gap-4 text-xs text-tinta-soft lg:max-w-none"
-            >
-              <span>{CLINICA.nome}, no consultório</span>
-              <span>Fortaleza, CE</span>
-            </figcaption>
-          </figure>
-
-          {/* ---------- Texto ---------- */}
-          <div data-hero-texto className="order-2 lg:order-1 lg:col-span-7">
-            <p data-hero-fade data-gsap-pending className="text-sm text-rose sm:text-base">
-              {CLINICA.profissao} em Fortaleza
-            </p>
-            <h1 className="font-display mt-4 text-[clamp(2.7rem,11.5vw,4.4rem)] leading-[1] lg:text-[clamp(4rem,6.6vw,7.8rem)] lg:leading-[0.98]">
-              {LINHAS.map((l) => (
-                <span key={l} className="block overflow-hidden pb-[0.06em]">
-                  <span data-linha className="block">
-                    {l}
+        {/* ---------- Texto ---------- */}
+        <div data-hero-texto className="mt-auto lg:my-auto lg:w-[calc(56%-5rem)]">
+          <p data-hero-fade data-gsap-pending className="text-sm text-rose-2 sm:text-base lg:text-rose">
+            {CLINICA.profissao} · Fortaleza, CE
+          </p>
+          <h1 className="font-display mt-3 text-[clamp(2.9rem,13.2vw,4.6rem)] leading-[0.98] [@media(max-height:620px)]:text-[2.4rem] lg:mt-5 lg:text-[clamp(4.2rem,6.3vw,8rem)] lg:leading-[0.95]">
+            <span className="sr-only">{FRASE.join(" ")}</span>
+            <span aria-hidden className="flex flex-wrap gap-x-[0.24em]">
+              {FRASE.map((p, i) => (
+                <span key={i} className={`overflow-hidden pb-[0.08em] ${i === 0 ? "basis-full" : ""}`}>
+                  <span data-palavra className="block">
+                    {p}
                   </span>
                 </span>
               ))}
-            </h1>
-            <p data-hero-fade data-gsap-pending className="mt-7 max-w-[30rem] text-base leading-relaxed text-tinta-soft sm:text-lg">
-              Clínica geral, clareamento e botox, com uma avaliação cuidadosa antes de qualquer tratamento.
-            </p>
-            <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
-              <a
-                data-hero-fade
-                data-gsap-pending
-                href={whatsapp()}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-cacau px-7 py-4 text-[15px] text-porcelana transition-colors hover:bg-rose"
-              >
-                Agendar avaliação pelo WhatsApp
-              </a>
-              <a
-                data-hero-fade
-                data-gsap-pending
-                href="#tratamentos"
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollTo("#tratamentos");
-                }}
-                className="border-b border-tinta/40 pb-0.5 text-[15px] hover:border-tinta"
-              >
-                Conhecer os tratamentos
-              </a>
-            </div>
+            </span>
+          </h1>
+          <p data-hero-fade data-gsap-pending className="mt-5 max-w-[28rem] text-base [@media(max-height:620px)]:hidden leading-relaxed text-porcelana/85 lg:mt-7 lg:text-lg lg:text-tinta-soft">
+            Clínica geral, clareamento e botox — com uma avaliação cuidadosa antes de qualquer tratamento.
+          </p>
+          <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-8 lg:mt-10">
+            <a
+              data-hero-fade
+              data-gsap-pending
+              href={whatsapp()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-rose-2 px-7 py-4 text-center text-[15px] font-medium text-cacau transition-colors hover:bg-porcelana lg:bg-cacau lg:text-porcelana lg:hover:bg-rose"
+            >
+              Agendar avaliação pelo WhatsApp
+            </a>
+            <a
+              data-hero-fade
+              data-gsap-pending
+              href="#tratamentos"
+              onClick={ancora("#tratamentos")}
+              className="self-center border-b border-current/40 pb-0.5 text-[15px] opacity-90 hover:opacity-100 sm:self-auto"
+            >
+              Conhecer os tratamentos
+            </a>
           </div>
         </div>
 
         {/* ---------- Indicador de scroll ---------- */}
-        <p data-hero-indicador data-gsap-pending aria-hidden className="mt-8 hidden text-xs text-tinta-soft lg:block">
+        <p data-hero-indicador data-gsap-pending aria-hidden className="mt-10 hidden text-xs text-tinta-soft lg:block">
           Role para conhecer ↓
         </p>
       </div>

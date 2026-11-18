@@ -32,7 +32,7 @@ Stack: Next.js (App Router, `src/`), TypeScript, Tailwind CSS v4, GSAP + ScrollT
 - `src/components/providers/SmoothScroll.tsx` — Lenis único + `useScrollTo()` (âncoras; `duration`, `ease` power3/expo, `lock`, `onComplete`, `interno`), `useScrollLock()`, `useNavegacao()` + evento `FIM_NAVEGACAO`.
 - `src/components/doc/Secao.tsx` — `SecaoHeader` (número + nome + linha) e `revealSecao()` (linha expo.inOut, `[data-item]` stagger 0.2 power3.out, `[data-draw]` linhas traçadas).
 - Página: `hero/` · `tratamento/TratamentosIntro` (01) · `tratamento/Tratamento` ×3 — Clínica Geral (02), Clareamento (03, antes/depois guiado pelo scroll, sem pin), Botox (04) · `sobre/` (05) · `duvidas/` (06) · `agendar/` (07). `flutuante/` = botão WhatsApp.
-- Hero editorial (claro): vídeo = a própria foto dela com aproximação lenta (`milena.mp4`, gerado da foto). Tensão: uma linha fina em forma de sorriso se desenha (só desktop) → a foto abre como cortina → o lema sobe linha a linha.
+- Hero em tela cheia: computador = tela dividida de ponta a ponta (painel `nude` 56% com o lema grande | ela em vídeo do topo ao rodapé); celular = ela na parte de cima (66%) fundindo num degradê cacau, texto embaixo sem cobrir o rosto. Tensão: o painel desliza → a foto sobe → a frase entra palavra por palavra. Vídeo = `milena.mp4` (aproximação lenta gerada da foto).
 - `public/media/milena.mp4` — loop de aproximação lenta gerado a partir de `perfil.jpg` (trocar por um vídeo real dela quando houver). Fotos vieram do Instagram (~600px) e foram ampliadas 4× com super-resolução (OpenCV EDSR ×4 + redução de ruído + nitidez leve). Uso: `perfil` (hero), `consultorio` (sobre), `procedimento` (botox), `antes`/`depois` (clareamento).
 
 ## Direção de arte
