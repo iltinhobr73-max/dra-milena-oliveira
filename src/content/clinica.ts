@@ -10,7 +10,8 @@ export const CLINICA = {
   nome: "Dra. Milena Oliveira",
   nomeCurto: "Milena Oliveira",
   profissao: "Cirurgiã-Dentista",
-  cro: "CRO-CE [nº]", // TODO: preencher
+  /** Ex.: "CRO-CE 12345". Vazio = não aparece. Obrigatório antes de publicar (CFO 196/2019). */
+  cro: "",
   cidade: "Fortaleza · Ceará",
   instagram: { usuario: "@dramilenaoliveira", url: "https://www.instagram.com/dramilenaoliveira/" },
   agendamento: "https://contate.me/dramilenaoliveira",

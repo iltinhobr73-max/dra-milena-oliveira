@@ -12,7 +12,7 @@ npm run dev
 ## Antes de publicar
 
 1. **Autorização da Dra. Milena** — textos e fotos vieram do Instagram público dela, como proposta.
-2. **CRO** — preencher em `src/content/clinica.ts` (obrigatório na publicidade odontológica).
+2. **CRO** — preencher `cro` em `src/content/clinica.ts` (vazio = não aparece; obrigatório na publicidade odontológica).
 3. **Antes e depois** — confirmar a autorização do(a) paciente da foto.
 4. **Logo "MO"** — trocar a assinatura tipográfica provisória (`src/components/doc/Logo.tsx`) e o ícone pelo arquivo do logo.
-5. **Fotos e vídeo** — as fotos têm ~600px; versões maiores e um vídeo real do consultório deixam o site bem melhor.
+5. **Fotos e vídeo** — as fotos do Instagram foram ampliadas 4× com IA (super-resolução); originais em alta e um vídeo real do consultório ainda deixam o site melhor.

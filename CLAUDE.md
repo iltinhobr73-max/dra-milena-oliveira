@@ -35,7 +35,7 @@ Stack: Next.js (App Router, `src/`), TypeScript, Tailwind CSS v4, GSAP + ScrollT
 - Seções: `hero/` (A3,5) · `tratamentos/` (A2, pin) · `sobre/` (A1) · `consultorio/` (B1) · `duvidas/` (BL2) · `agendar/` (BL1). `flutuante/` = botão "Agendar" (renderizado depois das seções).
 - Hero: a escala de cor aparece primeiro com o marcador parado em A3,5; a frase surge amarelada e **clareia** tom a tom até o branco enquanto o marcador percorre a escala.
 - Tratamentos: pin; cartões porcelana empilham; no clareamento, o antes/depois é revelado pelo scroll (cortina `[data-depois]`).
-- `public/media/perola.mp4` — vídeo de luz perolada (gerado, provisório). Fotos (`perfil`, `procedimento`, `consultorio`, `antes`/`depois`) vêm do Instagram dela, ~600px: exibir em tamanho contido.
+- `public/media/perola.mp4` — vídeo de luz perolada (gerado, provisório). Fotos (`perfil`, `procedimento`, `consultorio`, `antes`/`depois`) vieram do Instagram (~600px) e foram ampliadas 4× com super-resolução (OpenCV EDSR ×4 + redução de ruído + nitidez leve). Fotos novas: passar pelo mesmo processo ou, melhor, usar originais em alta.
 
 ## Direção de arte
 

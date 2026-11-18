@@ -72,7 +72,7 @@ export function Agendar() {
         <footer className="flex flex-col gap-6 border-t border-tinta/15 pt-6 sm:flex-row sm:items-end sm:justify-between">
           <Logo className="text-[18px]" />
           <p className="max-w-[60ch] font-mono text-[11px] leading-relaxed text-tinta-soft">
-            {CLINICA.nome} · {CLINICA.profissao} · {CLINICA.cro} · {CLINICA.cidade}. Resultados variam de pessoa
+            {CLINICA.nome} · {CLINICA.profissao}{CLINICA.cro ? ` · ${CLINICA.cro}` : ""} · {CLINICA.cidade}. Resultados variam de pessoa
             para pessoa; todo tratamento depende de avaliação clínica.
           </p>
           <a
