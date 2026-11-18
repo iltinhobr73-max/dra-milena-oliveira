@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+@theme inline {
+  /*
+   * Paleta "clareamento": a página vai do cacau (hero) ao branco porcelana
+   * (agendamento), como um dente passando pela escala de cor.
+   */
+  --color-cacau: #241a17;
+  --color-cacau-2: #33261f;
+  --color-nude: #efe3da;
+  --color-nude-2: #f5ece5;
+  --color-perola: #f9f4ef;
+  --color-porcelana: #fdfbf8;
+  --color-rose: #b8836c;
+  --color-rose-2: #d9b4a2;
+  --color-tinta: #2b201c;
+  --color-tinta-soft: #6b5850;
+
+  /* escala de cor (referência visual, não clínica) */
+  --color-a35: #d8bf8a;
+  --color-a3: #e2cc9d;
+  --color-a2: #ebdab6;
+  --color-a1: #f2e7cf;
+  --color-b1: #f7f0e3;
+  --color-bl1: #fdfbf8;
+
+  --font-serif: var(--font-fraunces);
+  --font-sans: var(--font-inter-tight);
+  --font-mono: var(--font-plex-mono);
+}
+
+html {
+  background: var(--color-cacau);
+  color-scheme: light;
+}
+
+body {
+  background: var(--color-porcelana);
+  color: var(--color-tinta);
+  font-family: var(--font-inter-tight), system-ui, sans-serif;
+}
+
+::selection {
+  background: var(--color-rose-2);
+  color: var(--color-tinta);
+}
+
+/* Display: Fraunces macia (eixo SOFT), óptica grande. */
+.font-display {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-variation-settings: "SOFT" 100, "opsz" 144;
+  font-weight: 340;
+  letter-spacing: -0.02em;
+}
+
+/*
+ * Anti-flash: com JS ativo, elementos marcados começam invisíveis até o
+ * GSAP assumir (ele seta autoAlpha). Sem JS, o conteúdo aparece normalmente.
+ */
+.js [data-gsap-pending] {
+  visibility: hidden;
+}
