@@ -33,7 +33,7 @@ Stack: Next.js (App Router, `src/`), TypeScript, Tailwind CSS v4, GSAP + ScrollT
 - `src/components/doc/Secao.tsx` — `SecaoHeader` (número + nome + linha) e `revealSecao()` (linha expo.inOut, `[data-item]` stagger 0.2 power3.out, `[data-draw]` linhas traçadas).
 - Página: `hero/` · `tratamento/TratamentosIntro` (01) · `tratamento/Tratamento` ×3 — Clínica Geral (02), Clareamento (03, antes/depois guiado pelo scroll, sem pin), Botox (04) · `sobre/` (05) · `duvidas/` (06) · `agendar/` (07). `flutuante/` = botão WhatsApp.
 - Hero escuro (cacau): fundo = `fundo.mp4` (luz perolada em loop) **fixo** — o vídeo é `position: fixed` e a seção tem `clip-path: inset(0)`, então a página rola por cima dele (não colocar transform/filter em ancestrais do hero, senão o fixed quebra). Na frente, a Dra. Milena **recortada e parada** (`milena-recorte.webp`, recorte com rembg/isnet a partir da foto de perfil). Celular: frase em cima, ela no meio, botões embaixo. Tensão: só a luz → ela surge → frase palavra por palavra.
-Fotos vieram do Instagram (~600px) e foram ampliadas 4× com super-resolução (OpenCV EDSR ×4 + redução de ruído + nitidez leve). Uso: `milena-recorte.webp` (hero), `consultorio` (sobre), `procedimento` (botox), `antes`/`depois` (clareamento).
+- Fotos vieram do Instagram (~600px) e foram ampliadas 4× com super-resolução (OpenCV EDSR ×4 + redução de ruído + nitidez leve). Uso: `milena-recorte.webp` (hero), `consultorio` (sobre), `procedimento` (botox), `antes`/`depois` (clareamento).
 
 ## Direção de arte
 
